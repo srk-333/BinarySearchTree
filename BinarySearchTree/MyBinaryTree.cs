@@ -6,34 +6,43 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTree
 {
-    public class MyBinaryTree<T> where T : IComparable
+    public class MyBinaryTree<T> where T : IComparable<T>
     {
-        public INode<T> root;
+        //Properties
+        public T NodeData { get; set; }
+        public MyBinaryTree<T> LeftTree { get; set; }
+        public MyBinaryTree<T> RightTree { get; set; }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MyBinaryTree{T}" /> class.
+        /// </summary>
+        /// <param name="data">The data.</param>
+        public MyBinaryTree(T data)
+        {
+            this.NodeData = data;
+            this.LeftTree = null;
+            this.RightTree = null;
+        }
+        int leftCount=0, rightCount=0;
         /// <summary>
         /// Creates the node.
         /// </summary>
         /// <param name="value">The value.</param>
         public void CreateNode(T value)
         {
-            INode<T> newNode = new INode<T>(value);
-            if (root == null)
+            T currentNode = this.NodeData;
+            if ((currentNode.CompareTo(value)) > 0)
             {
-                root = newNode;
+                if (this.LeftTree == null)
+                    this.LeftTree = new MyBinaryTree<T>(value);
+                else
+                    this.LeftTree.CreateNode(value);
             }
             else
             {
-                INode<T> parent = root;
-                INode<T> current = root;
-                if (current.data.CompareTo(value) >= 0)
-                {
-                    parent.leftTree = newNode;
-                    return;
-                }
+                if ((this.RightTree == null))
+                    this.RightTree = new MyBinaryTree<T>(value);
                 else
-                {
-                    parent.rightTree = newNode;
-                    return;
-                }
+                    this.RightTree.CreateNode(value);                
             }
         }
         /// <summary>
@@ -41,19 +50,24 @@ namespace BinarySearchTree
         /// </summary>
         public void Display()
         {
-            INode<T> temp = root;
-            if (temp != null)
+            if (this.LeftTree != null)
             {
-                Console.WriteLine("Root Node:{0}", temp.data.ToString());
+                this.leftCount++;
+                this.LeftTree.Display();              
             }
-            if (temp.leftTree != null)
+            Console.WriteLine("Node:{0}", this.NodeData.ToString());
+            if (this.RightTree != null)
             {
-                Console.WriteLine("Left Node:{0}", temp.leftTree.data.ToString());
-            }
-            if (temp.rightTree != null)
-            {
-                Console.WriteLine("Right Node:{0}", temp.rightTree.data.ToString());
-            }
+                this.rightCount++;
+                this.RightTree.Display();               
+            }         
+        }
+        /// <summary>
+        /// Size of BST
+        /// </summary>
+        public void Size()
+        {
+            Console.WriteLine("Size"+" "+(1+this.leftCount+this.rightCount));
         }
     }
 }
