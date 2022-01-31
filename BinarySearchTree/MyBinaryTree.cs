@@ -6,68 +6,81 @@ using System.Threading.Tasks;
 
 namespace BinarySearchTree
 {
-    public class MyBinaryTree<T> where T : IComparable<T>
+    public class MyBinaryNode<T> where T : IComparable
     {
-        //Properties
-        public T NodeData { get; set; }
-        public MyBinaryTree<T> LeftTree { get; set; }
-        public MyBinaryTree<T> RightTree { get; set; }
+        //Variable.
+        public INode<T> root;
         /// <summary>
-        /// Initializes a new instance of the <see cref="MyBinaryTree{T}" /> class.
+        /// insert the node into bst.
         /// </summary>
-        /// <param name="data">The data.</param>
-        public MyBinaryTree(T data)
-        {
-            this.NodeData = data;
-            this.LeftTree = null;
-            this.RightTree = null;
-        }
-        int leftCount=0, rightCount=0;
-        /// <summary>
-        /// Creates the node.
-        /// </summary>
-        /// <param name="value">The value.</param>
+        /// <param name="value"></param>
         public void CreateNode(T value)
         {
-            T currentNode = this.NodeData;
-            if ((currentNode.CompareTo(value)) > 0)
+            INode<T> newNode = new INode<T>(value);
+            if (root == null)
             {
-                if (this.LeftTree == null)
-                    this.LeftTree = new MyBinaryTree<T>(value);
-                else
-                    this.LeftTree.CreateNode(value);
+                root = newNode;
             }
             else
             {
-                if ((this.RightTree == null))
-                    this.RightTree = new MyBinaryTree<T>(value);
-                else
-                    this.RightTree.CreateNode(value);                
+                INode<T> parentNode = root;
+                INode<T> currentNode = root;
+                while (true)
+                {
+                    parentNode = currentNode;
+                    if (currentNode.data.CompareTo(value) >= 0)
+                    {
+                        currentNode = currentNode.left;
+                        if (currentNode == null)
+                        {
+                            parentNode.left = newNode;
+                            break;
+                        }
+                    }
+                    else
+                    {
+                        currentNode = currentNode.right;
+                        if (currentNode == null)
+                        {
+                            parentNode.right = newNode;
+                            break;
+                        }
+                    }
+                }
             }
+        }
+        //Display Root Node.
+        public void Root()
+        {
+            do
+            {
+                Console.WriteLine("BST Root Node:" + root.data);
+                break;
+            } while (root != null);
         }
         /// <summary>
         /// Displays Nodes in BST
         /// </summary>
-        public void Display()
+        public void Display(INode<T> parent)
         {
-            if (this.LeftTree != null)
+            if (parent != null)
             {
-                this.leftCount++;
-                this.LeftTree.Display();              
+                Display(parent.left);
+                Display(parent.right);
+                Console.WriteLine("{0} is BST Node", parent.data);
             }
-            Console.WriteLine("Node:{0}", this.NodeData.ToString());
-            if (this.RightTree != null)
-            {
-                this.rightCount++;
-                this.RightTree.Display();               
-            }         
         }
         /// <summary>
-        /// Size of BST
+        /// length of bst
         /// </summary>
-        public void Size()
+        /// <param name="root"></param>
+        /// <returns></returns>
+        public int Size(INode<T> root)
         {
-            Console.WriteLine("Size"+" "+(1+this.leftCount+this.rightCount));
+            if (root == null)
+                return 0;
+            else
+                return (Size(root.left) + 1 + Size(root.right));
         }
     }
 }

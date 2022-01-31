@@ -19,22 +19,23 @@ namespace BinarySearchTree
         /// </summary>
         public static void ViewBST()
         {
-            MyBinaryTree<int> tree = new MyBinaryTree<int>(56);
-            tree.CreateNode(30);
-            tree.CreateNode(70);
-            tree.CreateNode(22);
-            tree.CreateNode(40);
-            tree.CreateNode(60);
-            tree.CreateNode(95);
-            tree.CreateNode(11);
-            tree.CreateNode(65);
-            tree.CreateNode(3);
-            tree.CreateNode(16);
-            tree.CreateNode(63);
-            tree.CreateNode(67);
-            Console.WriteLine("Display Nodes present in Binary Search Tree");
-            tree.Display();
-            tree.Size();
+            MyBinaryNode<int> mybinarynode = new MyBinaryNode<int>();
+            mybinarynode.CreateNode(56);
+            mybinarynode.CreateNode(30);
+            mybinarynode.CreateNode(70);
+            mybinarynode.CreateNode(22);
+            mybinarynode.CreateNode(40);
+            mybinarynode.CreateNode(60);
+            mybinarynode.CreateNode(95);
+            mybinarynode.CreateNode(11);
+            mybinarynode.CreateNode(65);
+            mybinarynode.CreateNode(3);
+            mybinarynode.CreateNode(16);
+            mybinarynode.CreateNode(63);
+            mybinarynode.CreateNode(67);
+            mybinarynode.Root();
+            mybinarynode.Display(mybinarynode.root);         
+            Console.WriteLine("The number of nodes in BST:{0}", mybinarynode.Size(mybinarynode.root));
         }
     }
 }
